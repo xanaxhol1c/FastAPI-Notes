@@ -1,0 +1,19 @@
+{% extends "todo/layout.html" %}
+
+{% block title%}
+     API Notes 
+{% endblock title %}
+
+
+{% block content %}
+    <h1 class="mt-2">{{app_name}}</h1>
+    {% for note in notes %}
+        <div class="notes-container">
+            <p>{{note.id}}</p>
+            <p>{{note.title}}</p>
+            <p>{{note.text}}</p>
+            <p>{{note.is_complete}}</p>
+            <p>{{note.data_created}}</p>
+        </div>
+    {% endfor %}
+{% endblock content %}
