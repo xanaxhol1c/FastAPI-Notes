@@ -21,10 +21,11 @@ p{
     color: white;
 }
 
-h1{
+h1, h3{
     color: white;
     font-size: 32px;
 }
+
 
 .notes-container{
     background-color: #222222;
