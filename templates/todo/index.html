@@ -4,7 +4,6 @@
      API Notes 
 {% endblock title %}
 
-
 {% block content %}
     <h1 class="mt-2">{{app_name}}</h1>
     <form class="add-form" action="{{ url_for('add') }}" method="post">
@@ -17,11 +16,10 @@
     </form>
     {% for note in notes %}
         <div class="notes-container">
-            <p>{{note.id}}</p>
-            <p>{{note.title}}</p>
-            <p>{{note.text}}</p>
-            <p>{{note.is_complete}}</p>
-            <p>{{note.data_created}}</p>
+            <p class="m-2">№{{note.id}} {{note.title}}</p>
+            <p class="m-2">{{note.text}}</p>
+            <p class="m-2">Status: {% if note.is_complete == True %}Completed{% else %}Not Completed{%endif%}</p>
+            <p class="m-2">Date: {{note.data_created.strftime('%B %d, %Y')}}</p>
         </div>
     {% endfor %}
 {% endblock content %}
