@@ -17,7 +17,9 @@
     {% for note in notes %}
         <div class="notes-container">
             <p class="m-2">№{{note.id}} {{note.title}}</p>
-            <p class="m-2">{{note.text}}</p>
+            {% if note.text%}
+                <p class="m-2">{{note.text}}</p>
+            {% endif %}
             <p class="m-2">Status: 
                 {% if note.is_complete == True %}
                     <span style="color: green;">Completed</span>
