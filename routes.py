@@ -14,8 +14,7 @@ templates = Jinja2Templates(directory=Path(__file__).parent.parent / "todo" / "t
 async def home(request: Request, db_session : Session = Depends(get_db_session)):
     app_name = settings.app_name
 
-    notes = db_session.query(Note).all()
-
+    notes = db_session.query(Note).order_by(Note.data_created.desc()).all()
     return templates.TemplateResponse('todo/index.html', {"request": request, "app_name": app_name, "notes" : notes})
 
 @router.post("/add")
@@ -26,3 +25,22 @@ async def add(title : str = Form(...), text : str = Form(...),  db_session : Ses
 
     url = router.url_path_for('home')
     return RedirectResponse(url=url, status_code=303)
+
+@router.get('/update/{note_id}')
+async def update(note_id : int, db_session : Session = Depends(get_db_session)):
+    note = db_session.query(Note).filter(Note.id == note_id).first()
+    if note.is_complete == False:
+        note.is_complete = True
+    db_session.commit()
+
+    url = router.url_path_for('home')
+    return RedirectResponse(url=url, status_code=302)
+
+@router.get('/delete/{note_id}')
+async def delete(note_id : int, db_session : Session = Depends(get_db_session)):
+    note = db_session.query(Note).filter(Note.id == note_id).first()
+    db_session.delete(note)
+    db_session.commit()
+
+    url = router.url_path_for('home')
+    return RedirectResponse(url=url, status_code=302)

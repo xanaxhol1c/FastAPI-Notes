@@ -5,21 +5,48 @@
 {% endblock title %}
 
 {% block content %}
-    <h1 class="mt-2">{{app_name}}</h1>
-    <form class="add-form" action="{{ url_for('add') }}" method="post">
-        <h3>Create a new note</h3>
+    <button class="btn btn-success add-note-btn" type="button" id="showFormBtn">Create Note</button>
+    </button> 
+    <form class="add-form" action="{{ url_for('add') }}" method="post" style="display: none;"> 
         <div class="field">
-            <input type="text" name="title" placeholder="Note title"><br>
-            <input type="text" name="text" placeholder="Note text"><br>
+            <input type="text" class="form-control input-field" name="title" placeholder="Note title"><br>
+            <input type="text" class="form-control input-field" name="text" placeholder="Note text"><br>
         </div>
-        <button class="ui teal basic button" type="submit">Add note</button>
+        <button class="btn btn-secondary" type="submit">Add note</button>
     </form>
     {% for note in notes %}
         <div class="notes-container">
             <p class="m-2">№{{note.id}} {{note.title}}</p>
             <p class="m-2">{{note.text}}</p>
-            <p class="m-2">Status: {% if note.is_complete == True %}Completed{% else %}Not Completed{%endif%}</p>
+            <p class="m-2">Status: 
+                {% if note.is_complete == True %}
+                    <span style="color: green;">Completed</span>
+                {% else %}
+                    <span style="color: red;">Not Completed</span>
+                {% endif %}
+            </p>
             <p class="m-2">Date: {{note.data_created.strftime('%B %d, %Y')}}</p>
+            <div class="d-flex flex-row m-2" style="justify-content: flex-start; gap: 5px;">
+                {% if not note.is_complete %}
+                <a href="{{ url_for('update', note_id = note.id) }}" method="get">
+                    <button class="btn btn-primary" type="get">Mark as completed</button>
+                </a> 
+                {% endif %}
+                <a href="{{ url_for('delete', note_id = note.id) }}" method="get">
+                    <button class="btn btn-danger" type="get">Delete note</button>
+                </a> 
+            </div>
+
         </div>
     {% endfor %}
+    <script>
+        document.getElementById('showFormBtn').addEventListener('click', function() {
+            const form = document.querySelector('.add-form');
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+            } else {
+                form.style.display = 'none';
+            }
+        });
+    </script>
 {% endblock content %}

@@ -1,11 +1,20 @@
 body{
     display: flex;
-    background-color: black;
+    background-color: white;
     padding: 0;
     margin: 0;
     overflow-x: hidden;
     min-height: 100vh;
     flex-direction: column;
+}
+
+header{
+    background-color: #F4EA56;
+    width: 100%;
+}
+
+.header-container{
+    margin-left: 5%;
 }
 
 .container{
@@ -18,29 +27,61 @@ body{
 }
 
 p{
-    color: white;
+    color: black;
 }
 
-h1, h3{
-    color: white;
+h1{
+    color: black;
+    font-size: 32px;
+
+}
+
+h3{
+    color: black;
     font-size: 32px;
 }
 
 
 .notes-container{
-    background-color: #222222;
+    /* background-color: #222222; */
+    background-color: #f1f1f1;
     border-radius: 10px;
-    margin-bottom: 15px;
+    margin-top: 15px;
+    border: solid 2px;
+}
+
+.add-note-btn{
+    display: flex;
+    margin-top: 15px;
+    width: 115px;
+    height: 40px;
+    border: solid 2px;
+    font-size: 16px;
+}
+
+.add-form{
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    width: 45%;
 }
 
 
+.field{
+    display: flex;
+    flex-direction: column;
+    gap: -10px;
+}
 
 .footer{
     position: relative;
     bottom: 0;
+    margin-top: 20px;
     width: 100%;
     display: flex;
     justify-content: center;
-    border-top: solid 1px;
+    border-top: solid 2px;
     border-color: #222222;
+    background-color: #dcdcdc;
 }
