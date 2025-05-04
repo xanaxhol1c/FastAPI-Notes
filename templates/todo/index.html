@@ -1,0 +1,66 @@
+{% extends "todo/layout.html" %}
+
+{% block title%}
+     API Notes 
+{% endblock title %}
+
+{% block content %}
+    <button class="btn btn-success add-note-btn" type="button" id="showFormBtn">Create Note</button>
+    </button> 
+    <form class="add-form" action="{{ url_for('add') }}" method="post" style="display: none;"> 
+        <div class="field">
+            <input type="text" class="form-control input-field" name="title" placeholder="Note title"><br>
+            <input type="text" class="form-control input-field" name="text" placeholder="Note text"><br>
+        </div>
+        <button class="btn btn-secondary" type="submit">Add note</button>
+    </form>
+    {% for note in notes %}
+        <div class="notes-container">
+            <p class="m-2">№{{note.id}} {{note.title}}</p>
+            {% if note.text%}
+                <p class="m-2">{{note.text}}</p>
+            {% endif %}
+            <p class="m-2">Status: 
+                {% if note.is_complete == True %}
+                    <span style="color: green;">Completed</span>
+                {% else %}
+                    <span style="color: red;">Not Completed</span>
+                {% endif %}
+            </p>
+            <p class="m-2">Date: {{note.data_created.strftime('%B %d, %Y')}}</p>
+            <div class="d-flex flex-row m-2" style="justify-content: flex-start; gap: 5px;">
+                {% if not note.is_complete %}
+                    <button class="btn btn-primary" onclick="updateNote('{{ url_for('update', note_id=note.id) }}')">
+                        Mark as completed
+                    </button>
+                {% endif %}
+                <button class="btn btn-danger" onclick="deleteNote('{{ url_for('delete', note_id=note.id) }}')">
+                    Delete note
+                </button>
+            </div>
+
+        </div>
+    {% endfor %}
+    <script>
+        document.getElementById('showFormBtn').addEventListener('click', function() {
+            const form = document.querySelector('.add-form');
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+            } else {
+                form.style.display = 'none';
+            }
+        });
+        async function updateNote(updateUrl) {
+            const response = await fetch(updateUrl, { method: 'PATCH' });
+            if (response.ok) {
+                window.location.reload();
+            }
+        }        
+        async function deleteNote(deleteUrl) {
+            const response = await fetch(deleteUrl, {method : 'DELETE' });
+            if (response.ok) {
+                window.location.reload();
+            }
+        }
+    </script>
+{% endblock content %}
