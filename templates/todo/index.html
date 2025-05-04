@@ -30,13 +30,13 @@
             <p class="m-2">Date: {{note.data_created.strftime('%B %d, %Y')}}</p>
             <div class="d-flex flex-row m-2" style="justify-content: flex-start; gap: 5px;">
                 {% if not note.is_complete %}
-                <a href="{{ url_for('update', note_id = note.id) }}" method="get">
-                    <button class="btn btn-primary" type="get">Mark as completed</button>
-                </a> 
+                    <button class="btn btn-primary" onclick="updateNote('{{ url_for('update', note_id=note.id) }}')">
+                        Mark as completed
+                    </button>
                 {% endif %}
-                <a href="{{ url_for('delete', note_id = note.id) }}" method="get">
-                    <button class="btn btn-danger" type="get">Delete note</button>
-                </a> 
+                <button class="btn btn-danger" onclick="deleteNote('{{ url_for('delete', note_id=note.id) }}')">
+                    Delete note
+                </button>
             </div>
 
         </div>
@@ -50,5 +50,17 @@
                 form.style.display = 'none';
             }
         });
+        async function updateNote(updateUrl) {
+            const response = await fetch(updateUrl, { method: 'PATCH' });
+            if (response.ok) {
+                window.location.reload();
+            }
+        }        
+        async function deleteNote(deleteUrl) {
+            const response = await fetch(deleteUrl, {method : 'DELETE' });
+            if (response.ok) {
+                window.location.reload();
+            }
+        }
     </script>
 {% endblock content %}

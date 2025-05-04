@@ -26,7 +26,7 @@ async def add(title : str = Form(...), text : str = Form(...),  db_session : Ses
     url = router.url_path_for('home')
     return RedirectResponse(url=url, status_code=303)
 
-@router.get('/update/{note_id}')
+@router.patch('/update/{note_id}')
 async def update(note_id : int, db_session : Session = Depends(get_db_session)):
     note = db_session.query(Note).filter(Note.id == note_id).first()
     if note.is_complete == False:
@@ -34,13 +34,13 @@ async def update(note_id : int, db_session : Session = Depends(get_db_session)):
     db_session.commit()
 
     url = router.url_path_for('home')
-    return RedirectResponse(url=url, status_code=302)
+    return RedirectResponse(url=url, status_code=303)
 
-@router.get('/delete/{note_id}')
+@router.delete('/delete/{note_id}')
 async def delete(note_id : int, db_session : Session = Depends(get_db_session)):
     note = db_session.query(Note).filter(Note.id == note_id).first()
     db_session.delete(note)
     db_session.commit()
 
     url = router.url_path_for('home')
-    return RedirectResponse(url=url, status_code=302)
+    return RedirectResponse(url=url, status_code=303)
